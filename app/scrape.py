@@ -1,8 +1,10 @@
+from time import sleep
 from time import time
 
 import praw
 
 from config import parse_config
+from readability import parse_url
 
 config = parse_config("local")
 
@@ -26,11 +28,12 @@ def scrape_reddit_text():
     file_to_save_to = config['path_to_save']
     start_time = time()
     counter = 0
-    with open(file_to_save_to, 'wb') as f:
+    with open(file_to_save_to, 'w') as f:
         reddit = praw.Reddit(user_agent=config['user_agent'])
         for subreddit, limit in read_subreddit_list():
             text = ''
             for submission in reddit.get_subreddit(subreddit).get_hot(limit=limit):
+                sleep(1)
                 counter += 1
                 if (counter % 1000 == 0):
                     end_time = time()
@@ -38,16 +41,13 @@ def scrape_reddit_text():
                           + str(end_time - start_time) + " seconds.")
                     start_time = end_time
                 if (submission.selftext):
-                    text = submission.title + "\n" + submission.selftext
-                    print(text)
+                    text = submission.title.strip() + "\n" + \
+                           submission.selftext.strip()
                 else:
-                    text = submission.url
-                    print("url")
+                    text = parse_url(submission.url).strip()
                 for comment in submission.comments:
-                    text += "\n" + comment.body
-                print(text)
-
-            f.write(text)
+                    text += "\n" + comment.body.strip()
+                f.write(text.strip())
 
 
 if __name__ == "__main__":
