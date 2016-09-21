@@ -11,8 +11,8 @@ It is useful for collecting text corpus related to different domains when workin
 * Add name of subreddits (to crawl data from) in `config/subreddit.txt`
 * `cp config/config.cfg.sample config/config.cfg`
 * Populate values in `config/config.cfg`
-    * `user_agent` = user agent as defined by (praw)[https://praw.readthedocs.io/en/stable/] . Can put in any value.
+    * `user_agent` = user agent as defined by [praw](https://praw.readthedocs.io/en/stable/) . Can put in any value.
     * `subreddit_list_path` = path to `config/subreddit.txt`
     * `path_to_save` = file path where crawled data is to be saved.
     * `readability_token` = token to use [Readability parser API](https://www.readability.com/developers/api/parser). Can be obtained from [here](https://www.readability.com/developers/api).
-* `python3 scrape.py`
+* `python3 app/scrape.py`
