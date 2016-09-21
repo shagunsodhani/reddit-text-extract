@@ -1,8 +1,11 @@
 import praw
 
+from config import parse_config
+
+config = parse_config("local")
 
 def read_subreddit_list():
-    subreddit_list_path = '/home/shagun/projects/reddit-text/config/subreddit.txt'
+    subreddit_list_path = config['subreddit_list_path']
     subreddit_limit_list = []
     with open(subreddit_list_path) as f:
         for _line in f:
@@ -16,7 +19,7 @@ def read_subreddit_list():
     return subreddit_limit_list
 
 
-reddit = praw.Reddit(user_agent='dummy')
+reddit = praw.Reddit(user_agent=config['user_agent'])
 
 for subreddit, limit in read_subreddit_list():
     for submission in reddit.get_subreddit(subreddit).get_hot(limit=limit):
