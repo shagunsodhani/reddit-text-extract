@@ -91,6 +91,6 @@ ENV/
 
 .idea/*
 
-confing/config.cfg
+config/config.cfg
 
 data.txt

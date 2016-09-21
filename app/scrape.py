@@ -47,7 +47,10 @@ def scrape_reddit_text():
                     text = parse_url(submission.url).strip()
                 for comment in submission.comments:
                     text += "\n" + comment.body.strip()
-                f.write(text.strip())
+                text = ' '.join(text.split()).strip()
+                if (text):
+                    f.write(text.strip() + "\n")
+                    print(text.strip())
 
 
 if __name__ == "__main__":
