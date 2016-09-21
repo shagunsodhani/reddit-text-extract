@@ -26,3 +26,6 @@ for subreddit, limit in read_subreddit_list():
         else:
             text = submission.url
             print("url")
+        for comment in submission.comments:
+            text += "\n" + comment.body
+        print(text)
