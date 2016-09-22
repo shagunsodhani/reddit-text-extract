@@ -7,7 +7,8 @@ It is useful for collecting text corpus related to different domains when workin
 ## Usage
 
 * `git clone git@github.com:shagunsodhani/reddit-text-extract.git`
-* `sudo pip3 install requirements.txt`
+* `cd reddit-text-extract`
+* `sudo pip3 install -r requirements.txt`
 * Add name of subreddits (to crawl data from) in `config/subreddit.txt`
 * `cp config/config.cfg.sample config/config.cfg`
 * Populate values in `config/config.cfg`
