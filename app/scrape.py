@@ -1,5 +1,6 @@
 from time import sleep
 from time import time
+import re
 
 import praw
 
@@ -7,6 +8,10 @@ from config import parse_config
 from readability import parse_url
 
 config = parse_config("local")
+
+def clean_string(string_to_clean):
+    '''Method to remove punctuation and numbers from a string'''
+    return re.sub(r'[^\sa-zA-Z0-9]', '', string_to_clean).lower().strip()
 
 
 def read_subreddit_list():
@@ -33,23 +38,23 @@ def scrape_reddit_text():
         for subreddit, limit in read_subreddit_list():
             text = ''
             for submission in reddit.get_subreddit(subreddit).get_hot(limit=limit):
-                sleep(1)
+                sleep(0.1)
                 counter += 1
-                if (counter % 1000 == 0):
+                if (counter % 100 == 0):
                     end_time = time()
                     print(str(counter) + " number of submissions parsed in "
                           + str(end_time - start_time) + " seconds.")
                     start_time = end_time
                 if (submission.selftext):
-                    text = submission.title.strip() + "\n" + \
-                           submission.selftext.strip()
+                    text = clean_string(submission.title) + "\n" + \
+                           clean_string(submission.selftext)
                 else:
-                    text = parse_url(submission.url).strip()
+                    text = clean_string(parse_url(submission.url))
                 for comment in submission.comments:
-                    text += "\n" + comment.body.strip()
+                    text += "\n" + clean_string(comment.body)
                 text = ' '.join(text.split()).strip()
                 if (text):
-                    f.write(text.strip() + "\n")
+                    f.write(clean_string(text) + "\n")
                     print(text.strip())
 
 

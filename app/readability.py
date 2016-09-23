@@ -19,8 +19,15 @@ def parse_url(url):
     params = {}
     params['token'] = config['readability_token']
 
-    response = requests.get(url, params).json()
-    if ('error' in response):
+    try:
+        response = requests.get(url, params).json()
+        print(url)
+        if(response):
+            if ('error' in response):
+                return ''
+            else:
+                return response['title'].strip() + ' ' + striphtml(response['content']).strip()
+        else:
+            return ''
+    except ValueError as e:
         return ''
-    else:
-        return response['title'].strip() + ' ' + striphtml(response['content']).strip()
